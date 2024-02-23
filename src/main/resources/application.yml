@@ -1,0 +1,25 @@
+server:
+  port: 9090
+spring:
+  cloud:
+    function:
+      definition: orderConsume;orderPublish;process
+    stream:
+      bindings:
+        orderConsume-in-0:
+          destination: consumption_channel
+        orderPublish-out-0:
+          destination: publish_channel
+          producer:
+            poller:
+              fixed-delay: 2000
+        process-in-0:
+          destination: publish_channel
+        process-out-0:
+          destination: consumption_channel     
+  rabbitmq:
+    username: guest
+    password: guest
+    host: 127.0.0.1
+    port: 5672
+
